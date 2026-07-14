@@ -1,4 +1,6 @@
 name: Node.js CI
+permissions:
+  contents: write
 
 on:
   push:
@@ -33,5 +35,11 @@ jobs:
 
       - name: Verify Node.js app command
         run: node -e "console.log('Basic Node.js command succeeded')"
+
+      - name: Deploy Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./frontend
 
 
