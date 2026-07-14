@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Task Manager</title>
+	<style>
+		:root {
+			--bg: #f4f7fb;
+			--card: #ffffff;
+			--text: #1b2430;
+			--muted: #6b7280;
+			--accent: #0f766e;
+			--accent-hover: #0d5f58;
+			--border: #dbe2ea;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			min-height: 100vh;
+			font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+			color: var(--text);
+			background: linear-gradient(180deg, #eef3fa 0%, var(--bg) 100%);
+			display: grid;
+			place-items: center;
+			padding: 1rem;
+		}
+
+		.app {
+			width: 100%;
+			max-width: 560px;
+			background: var(--card);
+			border: 1px solid var(--border);
+			border-radius: 12px;
+			padding: 1.25rem;
+			box-shadow: 0 10px 25px rgba(17, 24, 39, 0.08);
+		}
+
+		h1 {
+			margin: 0 0 1rem;
+			font-size: 1.5rem;
+		}
+
+		form {
+			display: flex;
+			gap: 0.5rem;
+			margin-bottom: 1rem;
+		}
+
+		input[type="text"] {
+			flex: 1;
+			border: 1px solid var(--border);
+			border-radius: 8px;
+			padding: 0.65rem 0.75rem;
+			font-size: 1rem;
+		}
+
+		button {
+			border: none;
+			border-radius: 8px;
+			padding: 0.65rem 0.9rem;
+			color: #fff;
+			background: var(--accent);
+			cursor: pointer;
+			font-weight: 600;
+		}
+
+		button:hover {
+			background: var(--accent-hover);
+		}
+
+		.hint {
+			margin: 0 0 0.75rem;
+			color: var(--muted);
+			font-size: 0.9rem;
+		}
+
+		ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			border-top: 1px solid var(--border);
+		}
+
+		li {
+			padding: 0.75rem 0.25rem;
+			border-bottom: 1px solid var(--border);
+			word-break: break-word;
+		}
+
+		.empty {
+			color: var(--muted);
+			font-style: italic;
+			padding: 0.75rem 0.25rem;
+		}
+	</style>
+</head>
+<body>
+	<main class="app">
+		<h1>Task Manager</h1>
+		<form id="task-form">
+			<input id="task-input" type="text" placeholder="Enter a task" aria-label="Task description" required>
+			<button type="submit">Add Task</button>
+		</form>
+		<p class="hint">Tasks you add will appear below.</p>
+		<ul id="task-list">
+			<li class="empty">No tasks yet.</li>
+		</ul>
+	</main>
+
+	<script>
+		const taskForm = document.getElementById("task-form");
+		const taskInput = document.getElementById("task-input");
+		const taskList = document.getElementById("task-list");
+		const tasks = [];
+
+		function renderTasks() {
+			taskList.innerHTML = "";
+
+			if (tasks.length === 0) {
+				const emptyItem = document.createElement("li");
+				emptyItem.className = "empty";
+				emptyItem.textContent = "No tasks yet.";
+				taskList.appendChild(emptyItem);
+				return;
+			}
+
+			tasks.forEach((task) => {
+				const item = document.createElement("li");
+				item.textContent = task;
+				taskList.appendChild(item);
+			});
+		}
+
+		taskForm.addEventListener("submit", (event) => {
+			event.preventDefault();
+
+			const value = taskInput.value.trim();
+			if (!value) {
+				return;
+			}
+
+			tasks.push(value);
+			taskInput.value = "";
+			taskInput.focus();
+			renderTasks();
+		});
+
+		renderTasks();
+	</script>
+</body>
+</html>
