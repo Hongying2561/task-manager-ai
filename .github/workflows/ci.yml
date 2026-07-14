@@ -34,6 +34,4 @@ jobs:
       - name: Verify Node.js app command
         run: node -e "console.log('Basic Node.js command succeeded')"
 
-      - name: Break the pipeline intentionally
-        run: exit 1
 
